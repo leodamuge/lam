@@ -1,0 +1,22 @@
+*{
+    margin: 0 auto;
+}
+body {
+   background-color: #f9f8f4;*/
+   
+}
+
+
+.nav-link:hover {
+    background-color: #2baee1;
+    border-radius: 5px;
+}
+
+h2 {
+    font-weight: bold;
+    
+}
+
+.card {
+    border-radius: 10px;
+}
