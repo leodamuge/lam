@@ -69,11 +69,11 @@
                 <?php if($tipo == 'admin' || $tipo == 'tecnico'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                        MRO
+                        Bilhetes
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Ordens de Serviço</a></li>
-                        <li><a class="dropdown-item" href="#">Manutenção</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/bilhetes/adicionar.php">Vender</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/bilhetes/listar.php">Listar</a></li>
                     </ul>
                 </li>
                 <?php } ?>

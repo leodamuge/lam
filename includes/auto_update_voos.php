@@ -43,5 +43,10 @@ while($voo = $voos->fetch_assoc()){
         WHERE id = {$t['tripulante_id']}
         ");
     }
+    $receita = $conn->query("
+SELECT SUM(preco) as total 
+FROM bilhetes 
+WHERE voo_id = $voo_id
+")->fetch_assoc()['total'] ?? 0;
 }
 ?>
