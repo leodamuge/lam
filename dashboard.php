@@ -61,7 +61,7 @@ while($row = $statusQuery->fetch_assoc()){
 
     <div class="col-md-3">
         <div class="card shadow-sm text-center p-3">
-            <h6>Em Manutenção</h6>
+            <h6>Aeronaves em manutenção</h6>
             <h2 class="text-danger"><?php echo $manutencao; ?></h2>
         </div>
     </div>

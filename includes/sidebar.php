@@ -59,7 +59,7 @@
                         Tripulação
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Listar</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/tripulantes/listar.php">Listar</a></li>
                         <li><a class="dropdown-item" href="#">Escalas</a></li>
                     </ul>
                 </li>
@@ -98,7 +98,7 @@
                 👤 <?php echo $_SESSION['usuario']; ?> (<?php echo $tipo; ?>)
             </span>
 
-            <a href="/lam_erp/logout.php" class="btn btn-danger btn-sm">
+            <a href="/lam/logout.php" class="btn btn-danger btn-sm">
                 Sair
             </a>
 
