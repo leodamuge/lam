@@ -1,6 +1,7 @@
 <?php include("../../config/db.php"); ?>
 <?php include("../../includes/header.php"); ?>
-<?php include("../../includes/sidebar.php"); ?>
+<?php include("../../includes/sidebar.php"); 
+    include("../../includes/auto_update_voos.php");?>
 
 <div class="container mt-4">
 
@@ -20,6 +21,7 @@
     <th>Aeronave</th>
     <th>Status</th>
     <th>Ações</th>
+    <th>Tripulação</th>
 </tr>
 </thead>
 
@@ -45,6 +47,21 @@ while($row = $result->fetch_assoc()){
     if($status == 'cancelado') $cor = 'danger';
     if($status == 'ativo') $cor = 'warning';
     if($status == 'concluido') $cor = 'success';
+
+    // buscar tripulação do voo
+$trip = $conn->query("
+SELECT t.nome 
+FROM escala_tripulacao e
+JOIN tripulantes t ON t.id = e.tripulante_id
+WHERE e.voo_id = {$row['id']}
+");
+
+$nomes = [];
+while($t = $trip->fetch_assoc()){
+    $nomes[] = $t['nome'];
+}
+
+$tripulacao = implode(", ", $nomes);
 
     echo "<tr>
 
@@ -78,8 +95,9 @@ while($row = $result->fetch_assoc()){
             </a>
 
         </td>
-
+        <td>$tripulacao</td>
     </tr>";
+
 }
 ?>
 

@@ -1,6 +1,7 @@
 <?php include("../../config/db.php"); ?>
 <?php include("../../includes/header.php"); ?>
-<?php include("../../includes/sidebar.php"); ?>
+<?php include("../../includes/sidebar.php"); 
+    include("../../includes/auto_update_voos.php");?>
 
 <div class="container mt-4">
 

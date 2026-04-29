@@ -77,5 +77,11 @@ if(!empty($tripulantes)){
     }
 }
 
+$conn->query("
+UPDATE aeronaves 
+SET status='ocupado'
+WHERE id = $aeronave_id
+");
+
 header("Location: listar.php");
 ?>

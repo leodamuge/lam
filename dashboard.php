@@ -2,6 +2,7 @@
 include("config/db.php");
 include("includes/header.php");
 include("includes/sidebar.php");
+include("includes/auto_update_voos.php");
 
 $totalAeronaves = $conn->query("SELECT COUNT(*) as total FROM aeronaves")->fetch_assoc()['total'];
 
