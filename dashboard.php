@@ -3,6 +3,14 @@ include("config/db.php");
 include("includes/header.php");
 include("includes/sidebar.php");
 
+$totalAeronaves = $conn->query("SELECT COUNT(*) as total FROM aeronaves")->fetch_assoc()['total'];
+
+$totalVoos = $conn->query("SELECT COUNT(*) as total FROM voos")->fetch_assoc()['total'];
+
+$totalTripulantes = $conn->query("SELECT COUNT(*) as total FROM tripulantes")->fetch_assoc()['total'];
+
+$manutencao = $conn->query("SELECT COUNT(*) as total FROM aeronaves WHERE status='manutencao'")->fetch_assoc()['total'];
+
 // Dados - Horas de voo
 $dados = $conn->query("SELECT modelo, horas_voo FROM aeronaves");
 
@@ -28,7 +36,37 @@ while($row = $statusQuery->fetch_assoc()){
 
 <div class="container mt-4">
     <h2>📊 Dashboard ERP - LAM</h2>
+<div class="row mb-4">
 
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <h6>Total Aeronaves</h6>
+            <h2 class="text-primary"><?php echo $totalAeronaves; ?></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <h6>Total Voos</h6>
+            <h2 class="text-success"><?php echo $totalVoos; ?></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <h6>Tripulação</h6>
+            <h2 class="text-dark"><?php echo $totalTripulantes; ?></h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <h6>Em Manutenção</h6>
+            <h2 class="text-danger"><?php echo $manutencao; ?></h2>
+        </div>
+    </div>
+
+</div>
     <div class="row">
         <div class="col-md-6">
             <canvas id="graficoHoras"></canvas>

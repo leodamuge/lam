@@ -12,7 +12,7 @@ $foto_tmp = $_FILES['foto']['tmp_name'];
 $foto_size = $_FILES['foto']['size'];
 
 $ext = strtolower(pathinfo($foto_nome, PATHINFO_EXTENSION));
-$permitidas = ['jpg','jpeg','png','jfif'];
+$permitidas = ['jpg','jpeg','png','jfif',''];
 
 if(!in_array($ext, $permitidas)){
     die("Formato inválido!");

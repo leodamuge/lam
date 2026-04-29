@@ -1,7 +1,9 @@
+<?php $tipo = $_SESSION['tipo']; ?>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold" href="/lam_erp/dashboard.php">
+        <a class="navbar-brand fw-bold" href="/lam/dashboard.php">
             ✈️ ERP LAM
         </a>
 
@@ -13,73 +15,87 @@
 
             <ul class="navbar-nav me-auto">
 
-                <!-- DASHBOARD -->
+                <!-- Dashboard (todos) -->
                 <li class="nav-item">
                     <a class="nav-link" href="/lam/dashboard.php">Dashboard</a>
                 </li>
 
                 <!-- FROTA -->
+                <?php if($tipo == 'admin' || $tipo == 'tecnico'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         Frota
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/lam/modules/frota/listar.php">Listar Aeronaves</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/frota/listar.php">Listar</a></li>
+
+                        <?php if($tipo == 'admin'){ ?>
                         <li><a class="dropdown-item" href="/lam/modules/frota/adicionar.php">Nova Aeronave</a></li>
-                        <li><a class="dropdown-item" href="/lam/pdf/gerar_relatorio.php">Relatório PDF</a></li>
+                        <?php } ?>
                     </ul>
                 </li>
+                <?php } ?>
 
                 <!-- VOOS -->
+                <?php if($tipo == 'admin' || $tipo == 'operador'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         Voos
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/lam/modules/voos/listar.php">Listar Voos</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/voos/listar.php">Listar</a></li>
+
+                        <?php if($tipo == 'admin' || $tipo == 'operador'){ ?>
                         <li><a class="dropdown-item" href="/lam/modules/voos/adicionar.php">Criar Voo</a></li>
+                        <?php } ?>
                     </ul>
                 </li>
+                <?php } ?>
 
                 <!-- TRIPULAÇÃO -->
+                <?php if($tipo == 'admin' || $tipo == 'operador'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         Tripulação
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Listar Tripulantes</a></li>
-                        <li><a class="dropdown-item" href="#">Adicionar Tripulante</a></li>
+                        <li><a class="dropdown-item" href="#">Listar</a></li>
                         <li><a class="dropdown-item" href="#">Escalas</a></li>
                     </ul>
                 </li>
+                <?php } ?>
 
                 <!-- MRO -->
+                <?php if($tipo == 'admin' || $tipo == 'tecnico'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         MRO
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Ordens de Serviço</a></li>
-                        <li><a class="dropdown-item" href="#">Manutenção Preventiva</a></li>
+                        <li><a class="dropdown-item" href="#">Manutenção</a></li>
                     </ul>
                 </li>
+                <?php } ?>
 
-                <!-- FINANCEIRO -->
+                <!-- FINANCEIRO (apenas admin) -->
+                <?php if($tipo == 'admin'){ ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                         Financeiro
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Custos de Voo</a></li>
+                        <li><a class="dropdown-item" href="#">Custos</a></li>
                         <li><a class="dropdown-item" href="#">Receitas</a></li>
                     </ul>
                 </li>
+                <?php } ?>
 
             </ul>
 
-            <!-- USUÁRIO -->
+            <!-- USER -->
             <span class="text-white me-3">
-                👤 <?php echo $_SESSION['usuario']; ?>
+                👤 <?php echo $_SESSION['usuario']; ?> (<?php echo $tipo; ?>)
             </span>
 
             <a href="/lam_erp/logout.php" class="btn btn-danger btn-sm">

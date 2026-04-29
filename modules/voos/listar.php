@@ -1,36 +1,91 @@
 <?php include("../../config/db.php"); ?>
+<?php include("../../includes/header.php"); ?>
+<?php include("../../includes/sidebar.php"); ?>
 
-<h2>Voos</h2>
+<div class="container mt-4">
+
+<h2>✈️ Gestão de Voos</h2>
+
+<a href="adicionar.php" class="btn btn-success mb-3">+ Novo Voo</a>
+
+<table class="table table-hover table-bordered shadow-sm">
+
+<thead class="table-dark">
+<tr>
+    <th>ID</th>
+    <th>Rota</th>
+    <th>Data</th>
+    <th>Hora Saída</th>
+    <th>Hora Chegada</th>
+    <th>Aeronave</th>
+    <th>Status</th>
+    <th>Ações</th>
+</tr>
+</thead>
+
+<tbody>
 
 <?php
-$voos = $conn->query("
+$sql = "
 SELECT v.*, r.origem, r.destino, a.modelo, a.matricula
 FROM voos v
-JOIN rotas r ON v.rota_id = r.id
-JOIN aeronaves a ON v.aeronave_id = a.id
-");
+LEFT JOIN rotas r ON v.rota_id = r.id
+LEFT JOIN aeronaves a ON v.aeronave_id = a.id
+";
 
-while($v = $voos->fetch_assoc()){
+$result = $conn->query($sql);
 
-    echo "<div class='card mb-3 p-3'>";
-    echo "<h4>{$v['origem']} → {$v['destino']}</h4>";
-    echo "<p>Aeronave: {$v['modelo']} ({$v['matricula']})</p>";
-    echo "<p>Hora: {$v['hora_saida']} - {$v['hora_chegada']}</p>";
+while($row = $result->fetch_assoc()){
 
-    // tripulação
-    $trip = $conn->query("
-    SELECT t.nome, t.funcao
-    FROM escala_tripulacao e
-    JOIN tripulantes t ON e.tripulante_id = t.id
-    WHERE e.voo_id = {$v['id']}
-    ");
+    // cores status
+    $status = $row['status'];
+    $cor = 'secondary';
+    //success, warning, danger
 
-    echo "<strong>Tripulação:</strong><br>";
+    if($status == 'cancelado') $cor = 'danger';
+    if($status == 'ativo') $cor = 'warning';
+    if($status == 'concluido') $cor = 'success';
 
-    while($t = $trip->fetch_assoc()){
-        echo "- {$t['nome']} ({$t['funcao']})<br>";
-    }
+    echo "<tr>
 
-    echo "</div>";
+        <td>{$row['id']}</td>
+
+        <td>{$row['origem']} → {$row['destino']}</td>
+
+        <td>{$row['data_voo']}</td>
+
+        <td>{$row['hora_saida']}</td>
+
+        <td>{$row['hora_chegada']}</td>
+
+        <td>{$row['modelo']} ({$row['matricula']})</td>
+
+        <td>
+            <span class='badge bg-$cor text-uppercase'>
+                $status
+            </span>
+        </td>
+
+        <td>
+
+            <a href='editar.php?id={$row['id']}' 
+               class='btn btn-warning btn-sm'>✏️</a>
+
+            <a href='cancelar.php?id={$row['id']}' 
+               class='btn btn-danger btn-sm'
+               onclick=\"return confirm('Cancelar este voo?')\">
+               ✖
+            </a>
+
+        </td>
+
+    </tr>";
 }
 ?>
+
+</tbody>
+</table>
+
+</div>
+
+<?php include("../../includes/footer.php"); ?>

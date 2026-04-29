@@ -21,9 +21,6 @@ h2 {
     
 }
 
-.card {
-    border-radius: 10px;
-}
 
 .dropdown-menu {
     border-radius: 10px;
@@ -33,4 +30,25 @@ h2 {
 .dropdown-item:hover {
     background-color: #343a40;
     color: white;
+}
+
+.card {
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+input, select {
+    border-radius: 8px !important;
+}
+
+label {
+    font-weight: 500;
+}
+
+.card {
+    background: white;
 }

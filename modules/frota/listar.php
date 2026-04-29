@@ -37,6 +37,7 @@
     <th>Horas</th>
     <th>Status</th>
     <th>Foto</th>
+    <th>Ações</th>
 </tr>
 
 <?php
@@ -64,7 +65,7 @@ while($row = $result->fetch_assoc()){
 
         <td>";
         
-        // evitar erro se não tiver foto
+        // FOTO
         if(!empty($row['foto'])){
             echo "<img src='../../uploads/{$row['foto']}' width='100' style='border-radius:8px;'>";
         } else {
@@ -72,6 +73,23 @@ while($row = $result->fetch_assoc()){
         }
 
     echo "</td>
+
+        <td>";
+        
+        // AÇÕES (apenas admin)
+        if($_SESSION['tipo'] == 'admin'){
+            echo "
+                <a href='editar.php?id={$row['id']}' class='btn btn-sm btn-warning me-1'>✏️</a>
+                <a href='eliminar.php?id={$row['id']}' 
+                   class='btn btn-sm btn-danger'
+                   onclick=\"return confirm('Tem certeza que deseja eliminar esta aeronave?')\">🗑️</a>
+            ";
+        } else {
+            echo "<span class='text-muted'>Sem acesso</span>";
+        }
+
+    echo "</td>
+
     </tr>";
 }
 ?>

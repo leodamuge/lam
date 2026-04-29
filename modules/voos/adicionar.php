@@ -1,45 +1,92 @@
 <?php include("../../config/db.php"); ?>
+<?php include("../../includes/header.php"); ?>
+<?php include("../../includes/sidebar.php");?>
+<?php 
+$rotas = $conn->query("SELECT id, origem, destino FROM rotas");
 
-<form action="salvar.php" method="POST" class="container mt-4">
-    <h2>Criar Voo</h2>
+$aeronaves = $conn->query("SELECT id, modelo, matricula FROM aeronaves WHERE status='operacional'");
 
-    <!-- Selecionar rota -->
-    <select name="rota_id" class="form-control mb-2">
-        <?php
-        $rotas = $conn->query("SELECT * FROM rotas");
-        while($r = $rotas->fetch_assoc()){
-            echo "<option value='{$r['id']}'>{$r['origem']} → {$r['destino']}</option>";
-        }
-        ?>
-    </select>
-
-    <input type="date" name="data_voo" class="form-control mb-3">
-
-    <h4>Selecionar Tripulação</h4>
-
-    <?php
-    $trip = $conn->query("SELECT * FROM tripulantes");
-    while($t = $trip->fetch_assoc()){
-        echo "
-        <div>
-            <input type='checkbox' name='tripulantes[]' value='{$t['id']}'>
-            {$t['nome']} ({$t['funcao']})
-        </div>";
-    }
-    ?>
-    <h4>Aeronave</h4>
-<select name="aeronave_id" class="form-control mb-2">
-<?php
-$aeronaves = $conn->query("SELECT * FROM aeronaves WHERE status='operacional'");
-while($a = $aeronaves->fetch_assoc()){
-    echo "<option value='{$a['id']}'>{$a['modelo']} - {$a['matricula']}</option>";
-}
+$tripulantes = $conn->query("SELECT id, nome, funcao FROM tripulantes WHERE status='ativo'");
 ?>
-</select>
 
-<h4>Horário</h4>
-<input type="time" name="hora_saida" class="form-control mb-2">
-<input type="time" name="hora_chegada" class="form-control mb-3">
+<div class="container mt-4 d-flex justify-content-center">
 
-    <button class="btn btn-primary mt-3">Criar Voo</button>
+<div class="card shadow p-4" style="width:700px; border-radius:15px;">
+
+<h3 class="text-center mb-4">✈️ Criar Voo</h3>
+
+<form action="salvar.php" method="POST">
+
+<div class="row">
+
+<!-- ROTA -->
+<div class="col-md-12 mb-3">
+    <label>Rota</label>
+    <select name="rota_id" class="form-control" required>
+        <option value="">Selecione a rota</option>
+
+        <?php while($r = $rotas->fetch_assoc()){ ?>
+            <option value="<?= $r['id'] ?>">
+                <?= $r['origem'] ?> → <?= $r['destino'] ?>
+            </option>
+        <?php } ?>
+    </select>
+</div>
+
+<!-- DATA VOO -->
+<div class="col-md-6 mb-3">
+    <label>Data do Voo</label>
+    <input type="date" name="data_voo" class="form-control" required>
+</div>
+
+<!-- HORA SAÍDA -->
+<div class="col-md-6 mb-3">
+    <label>Hora de Saída</label>
+    <input type="time" name="hora_saida" class="form-control" required>
+</div>
+
+<!-- HORA CHEGADA -->
+<div class="col-md-6 mb-3">
+    <label>Hora de Chegada</label>
+    <input type="time" name="hora_chegada" class="form-control" required>
+</div>
+
+<!-- AERONAVE -->
+<div class="col-md-12 mb-3">
+    <label>Aeronave</label>
+    <select name="aeronave_id" class="form-control" required>
+        <option value="">Selecione a aeronave</option>
+
+        <?php while($a = $aeronaves->fetch_assoc()){ ?>
+            <option value="<?= $a['id'] ?>">
+                <?= $a['modelo'] ?> - <?= $a['matricula'] ?>
+            </option>
+        <?php } ?>
+    </select>
+</div>
+
+<!-- TRIPULANTES -->
+<div class="col-md-12 mb-3">
+    <label>Tripulantes</label>
+    <select name="tripulantes[]" class="form-control" multiple required>
+
+        <?php while($t = $tripulantes->fetch_assoc()){ ?>
+            <option value="<?= $t['id'] ?>">
+                <?= $t['nome'] ?> (<?= $t['funcao'] ?>)
+            </option>
+        <?php } ?>
+
+    </select>
+    <small class="text-muted">Segure CTRL para selecionar múltiplos</small>
+</div>
+
+</div>
+
+<button class="btn btn-primary">Criar Voo</button>
+
 </form>
+
+</div>
+</div>
+
+<?php include("../../includes/footer.php"); ?>
