@@ -14,7 +14,7 @@
 }
 </style>
 </head>
-<body class="container mt-4">
+<div class="container mt-4">
 
 <h2>Aeronaves</h2>
 
@@ -78,8 +78,7 @@ while($row = $result->fetch_assoc()){
 
 </table>
 
-</body>
-</html>
+</div>
 <?php include("../../includes/footer.php"); ?>
 
 <script>

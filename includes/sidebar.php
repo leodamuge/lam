@@ -1,24 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
 
-<div class="bg-dark text-white p-3 vh-100" style="width:250px;">
-    <h4>✈️ ERP LAM</h4>
-    <hr>
+        <a class="navbar-brand fw-bold" href="/lam_erp/dashboard.php">
+            ✈️ ERP LAM
+        </a>
 
-    <ul class="nav flex-column">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuERP">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <li><a href="/lam/dashboard.php" class="nav-link text-white">Dashboard</a></li>
+        <div class="collapse navbar-collapse" id="menuERP">
 
-        <li><a href="/lam/modules/frota/listar.php" class="nav-link text-white">Frota</a></li>
+            <ul class="navbar-nav me-auto">
 
-        <li><a href="/lam/modules/voos/listar.php" class="nav-link text-white">Voos</a></li>
+                <!-- DASHBOARD -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/lam/dashboard.php">Dashboard</a>
+                </li>
 
-        <li><a href="#" class="nav-link text-white">Tripulação</a></li>
+                <!-- FROTA -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Frota
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/lam/modules/frota/listar.php">Listar Aeronaves</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/frota/adicionar.php">Nova Aeronave</a></li>
+                        <li><a class="dropdown-item" href="/lam/pdf/gerar_relatorio.php">Relatório PDF</a></li>
+                    </ul>
+                </li>
 
-        <li><a href="#" class="nav-link text-white">MRO</a></li>
+                <!-- VOOS -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Voos
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/lam/modules/voos/listar.php">Listar Voos</a></li>
+                        <li><a class="dropdown-item" href="/lam/modules/voos/adicionar.php">Criar Voo</a></li>
+                    </ul>
+                </li>
 
-        <li><a href="#" class="nav-link text-white">Financeiro</a></li>
+                <!-- TRIPULAÇÃO -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Tripulação
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Listar Tripulantes</a></li>
+                        <li><a class="dropdown-item" href="#">Adicionar Tripulante</a></li>
+                        <li><a class="dropdown-item" href="#">Escalas</a></li>
+                    </ul>
+                </li>
 
-        <hr>
+                <!-- MRO -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        MRO
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Ordens de Serviço</a></li>
+                        <li><a class="dropdown-item" href="#">Manutenção Preventiva</a></li>
+                    </ul>
+                </li>
 
-        <li><a href="/lam/logout.php" class="nav-link text-danger">Sair</a></li>
-    </ul>
-</div>
+                <!-- FINANCEIRO -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        Financeiro
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Custos de Voo</a></li>
+                        <li><a class="dropdown-item" href="#">Receitas</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            <!-- USUÁRIO -->
+            <span class="text-white me-3">
+                👤 <?php echo $_SESSION['usuario']; ?>
+            </span>
+
+            <a href="/lam_erp/logout.php" class="btn btn-danger btn-sm">
+                Sair
+            </a>
+
+        </div>
+    </div>
+</nav>

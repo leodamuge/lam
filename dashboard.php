@@ -3,7 +3,7 @@ include("config/db.php");
 include("includes/header.php");
 include("includes/sidebar.php");
 
-// Horas de voo por aeronave
+// Dados - Horas de voo
 $dados = $conn->query("SELECT modelo, horas_voo FROM aeronaves");
 
 $modelos = [];
@@ -14,7 +14,7 @@ while($row = $dados->fetch_assoc()){
     $horas[] = $row['horas_voo'];
 }
 
-// Status
+// Dados - Status
 $statusQuery = $conn->query("SELECT status, COUNT(*) as total FROM aeronaves GROUP BY status");
 
 $statusLabels = [];
@@ -25,26 +25,9 @@ while($row = $statusQuery->fetch_assoc()){
     $statusValores[] = $row['total'];
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="/lam/assets/css/style.css" rel="stylesheet">
-    <style>
-        canvas {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-}
-    </style>
-</head>
-<body>
-
 
 <div class="container mt-4">
-    <h2 id="dmg">📊 Dashboard ERP - LAM</h2>
+    <h2>📊 Dashboard ERP - LAM</h2>
 
     <div class="row">
         <div class="col-md-6">
@@ -57,41 +40,57 @@ while($row = $statusQuery->fetch_assoc()){
     </div>
 </div>
 
-</body>
-</html>
-<?php
-var_dump($modelos);
-var_dump($horas);
-?>
-    <script>
-// Dados do PHP
-const modelos = <?php echo json_encode($modelos); ?>;
-const horas = <?php echo json_encode($horas); ?>;
+<?php include("includes/footer.php"); ?>
 
-const statusLabels = <?php echo json_encode($statusLabels); ?>;
-const statusValores = <?php echo json_encode($statusValores); ?>;
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-// Gráfico de barras
-new Chart(document.getElementById('graficoHoras'), {
-    type: 'bar',
-    data: {
-        labels: modelos,
-        datasets: [{
-            label: 'Horas de Voo',
-            data: horas
-        }]
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    const modelos = <?php echo json_encode($modelos ?? []); ?>;
+    const horas = <?php echo json_encode($horas ?? []); ?>;
+
+    const statusLabels = <?php echo json_encode($statusLabels ?? []); ?>;
+    const statusValores = <?php echo json_encode($statusValores ?? []); ?>;
+
+    // Verificação (evita gráfico vazio quebrar)
+    if(modelos.length === 0){
+        document.getElementById('graficoHoras').outerHTML = "<p>Sem dados de aeronaves</p>";
+    } else {
+        new Chart(document.getElementById('graficoHoras'), {
+            type: 'bar',
+            data: {
+                labels: modelos,
+                datasets: [{
+                    label: 'Horas de Voo',
+                    data: horas
+                }]
+            }
+        });
     }
-});
 
-// Gráfico de pizza
-new Chart(document.getElementById('graficoStatus'), {
-    type: 'pie',
-    data: {
-        labels: statusLabels,
-        datasets: [{
-            data: statusValores
-        }]
+    if(statusLabels.length === 0){
+        document.getElementById('graficoStatus').outerHTML = "<p>Sem dados de status</p>";
+    } else {
+        new Chart(document.getElementById('graficoStatus'), {
+            type: 'pie',
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    data: statusValores
+                }]
+            }
+        });
     }
-});
 
+});
 </script>
+
+<style>
+canvas {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+</style>
