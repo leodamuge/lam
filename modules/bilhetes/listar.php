@@ -73,23 +73,34 @@ while($row = $res->fetch_assoc()){
         </td>
 
         <td>";
-        
+        $agora = time();
+        $dataHoraVoo = strtotime($row['data_voo'] . ' ' . $row['hora_saida']);
         // BOTÃO CHECK-IN / EMBARQUE
-        if($status == 'emitido'){
-            echo "<a href='checkin.php?id={$row['id']}' 
-                  class='btn btn-primary btn-sm'>
-                  Fazer Check-in
-                  </a>";
-        }
-        elseif($status == 'checkin'){
-            echo "<a href='embarcar.php?id={$row['id']}' 
-                  class='btn btn-success btn-sm'>
-                  Embarcar
-                  </a>";
-        }
-        else{
-            echo "<span class='text-success'>✔ Embarcado</span>";
-        }
+echo "<td>";
+
+if($status == 'emitido'){
+
+    if($agora < $dataHoraVoo){
+        echo "<a href='checkin.php?id={$row['id']}' 
+              class='btn btn-primary btn-sm'>
+              Fazer Check-in
+              </a>";
+    } else {
+        echo "<span class='text-danger'>Check-in encerrado</span>";
+    }
+
+}
+elseif($status == 'checkin'){
+    echo "<a href='embarcar.php?id={$row['id']}' 
+          class='btn btn-success btn-sm'>
+          Embarcar
+          </a>";
+}
+else{
+    echo "<span class='text-success'>✔ Embarcado</span>";
+}
+
+echo "</td>";
 
     echo "</td>
 
