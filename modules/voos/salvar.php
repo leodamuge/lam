@@ -18,24 +18,16 @@ if($status != 'operacional'){
 }
 
 // 🚫 1. Conflito de aeronave
-$stmt = $conn->prepare("
-SELECT id FROM voos
-WHERE aeronave_id = ?
-AND data_voo = ?
-AND (hora_saida < ? AND hora_chegada > ?)
+$conflito_aviao = $conn->query("
+SELECT id FROM voos 
+WHERE aeronave_id = '$aeronave_id'
+AND status = 'ativo'
+AND data_voo = '$data'
+AND (hora_saida < '$chegada' AND hora_chegada > '$saida')
 ");
 
-$stmt->bind_param("isss", $aeronave_id, $data, $chegada, $saida);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-if($result->num_rows > 0){
-    die("❌ Aeronave escalada para este horário!");
-}
-
-if($saida >= $chegada){
-    die("Hora de saída deve ser menor que a de chegada!");
+if($conflito_aviao && $conflito_aviao->num_rows > 0){
+    die("❌ Aeronave já está em outro voo ATIVO nesse horário!");
 }
 
 // 🚫 2. Conflito de tripulação
@@ -52,12 +44,13 @@ foreach($tripulantes as $trip_id){
         FROM voos v
         JOIN escala_tripulacao e ON v.id = e.voo_id
         WHERE e.tripulante_id = '$trip_id'
+        AND v.status = 'ativo'
         AND v.data_voo = '$data'
         AND (v.hora_saida < '$chegada' AND v.hora_chegada > '$saida')
     ");
 
     if($conflito_trip && $conflito_trip->num_rows > 0){
-        die("❌ Conflito: um tripulante já está escalado nesse horário!");
+        die("❌ Tripulante já está em outro voo ATIVO nesse horário!");
     }
 }
 

@@ -33,7 +33,7 @@ SELECT v.*, r.origem, r.destino, a.modelo, a.matricula
 FROM voos v
 LEFT JOIN rotas r ON v.rota_id = r.id
 LEFT JOIN aeronaves a ON v.aeronave_id = a.id
-";
+ORDER BY status ASC";
 
 $result = $conn->query($sql);
 

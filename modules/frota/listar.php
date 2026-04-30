@@ -20,7 +20,7 @@
 
 
 <a href="adicionar.php" class="btn btn-success ">Nova Aeronave</a>
-<a href="../../pdf/gerar_relatorio.php" class="btn btn-secondary mb-3">Gerar PDF</a>
+<a href="gerar_relatorio.php" class="btn btn-secondary mb-3">Gerar PDF</a>
 <input 
     type="text" 
     id="pesquisa" 
